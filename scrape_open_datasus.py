@@ -107,11 +107,12 @@ class ScrapeOpenDatasus(object):
             [self.__scrape(url, base)
              for url, base in zip(home_url, self.bases)]
 
-        downloads = ThreadPool(4).imap_unordered(
+        downloads = ThreadPool(task).imap_unordered(
             self.__download, self.__download_url
         )
         for download in downloads:
-            print(download)
+            pass
+            # print(download)
 
     def __scrape(self, url, base):
         def ocupacao_hospitalar(page):
@@ -187,13 +188,15 @@ class ScrapeOpenDatasus(object):
 
 
 if __name__ == '__main__':
-    bot = ScrapeOpenDatasus(
-        'ocupacao_hospitalar'
-        # 'srag',
-        # 'vacinacao_covid',
-        # 'sindrome_gripal'
-        # 'google_mobility',
-        # 'brasil_io'
-    )
-    bot.set_directory('/home/fabio/Documentos/dados_covid/')
-    bot.get_data(4)
+    bot = ScrapeOpenDatasus([# 'ocupacao_hospitalar',
+                             # 'srag',
+                             # 'vacinacao_covid',
+                             'sindrome_gripal',
+                             # 'google_mobility',
+                             # 'brasil_io'
+    ])
+
+    path = '/media/fabio/compartilhado/ModelingTaskForce/tabelas-datasus/'
+
+    bot.set_directory(path)
+    bot.get_data(1)
