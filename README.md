@@ -1,4 +1,4 @@
-![](images/realizacao.png)
+![](Images/realizacao.png)
 
 # Data Lake for the Platform for analytical models in epidemiology (PAMEpi)
 
@@ -17,7 +17,7 @@ At the moment, we are focusing on the studies of the COVID-19 pandemic in Brazil
 
 The directory is divided into Data collection, Data curation and Data formatting folders, representing the process applied to the datasets used. Inside of each folder, we specify the disease we are working on. Finally, an example is shown for the Brazilian Covid 19 big data workflow.
 
-![](images/lakecovid.png)
+![](Images/lakecovid.png)
 
 
 # Installation
@@ -33,4 +33,4 @@ Models were implemented using Python > 3.5 and depend on libraries such as [Pand
 ## References 
 
 
-![](images/apoio.png)
+![](Images/apoio.png)
