@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import os
+import pathlib
+from datetime import datetime
 from multiprocessing.pool import ThreadPool
 from requests import request
 from bs4 import BeautifulSoup
@@ -110,6 +112,8 @@ class ScrapeOpenDatasus(object):
         downloads = ThreadPool(task).imap_unordered(
             self.__download, self.__download_url
         )
+        self.__create_folder()
+
         for download in downloads:
             pass
             # print(download)
@@ -166,12 +170,40 @@ class ScrapeOpenDatasus(object):
         return functions[base](page)
 
     def __download(self, url):
+        folder = ''
+        directory = {
+            'caso_full.csv.gz': os.path.join(self.__path,
+                                'data-brasil_io/'),
+            'part': os.path.join(self.__path,
+                                'data-datasus_vacinacao_brasil/'),
+            'sindrome': os.path.join(self.__path,
+                                'data-notificacao_sindrome_gripal/'),
+            'Global_Mobility_Report.csv': os.path.join(self.__path,
+                                'data-google_mobility/'),
+            'esus-vepi.LeitoOcupacao.csv': os.path.join(self.__path,
+                                'data-ocupacao_hospitalar/'),
+            'influd': os.path.join(
+                self.__path,
+                'data-sindrome_respiratoria_aguda_grave_incluindo_covid/'
+            ),
+        }
+
         file_name_start_pos = url.rfind('/') + 1
         file_name = url[file_name_start_pos:]
 
         r = request('GET', url, stream=True)
         if r.status_code:
-            with open(f'{self.__path + file_name}', 'wb+') as file, tqdm(
+            if file_name.startswith('dados-'):
+                folder = directory['sindrome']
+            elif file_name.startswith('part'):
+                folder = directory['part']
+            elif file_name.startswith('INFLUD'):
+                folder = directory['influd']
+            else:
+                folder = directory[file_name]
+
+            with open(f'{os.path.join(folder, file_name)}',
+                      'wb+') as file, tqdm(
                 desc=file_name,
                 total=int(r.headers['Content-Length']),
                 unit='iB',
@@ -182,21 +214,59 @@ class ScrapeOpenDatasus(object):
                     size = file.write(data)
                     bar.update(size)
 
+    def __create_folder(self):
+        folders = [
+            'data-brasil_io/',
+            'data-datasus_vacinacao_brasil/',
+            'data-notificacao_sindrome_gripal/',
+            'data-google_mobility/',
+            'data-ocupacao_hospitalar/',
+            'data-sindrome_respiratoria_aguda_grave_incluindo_covid/'
+        ]
+
+        year = datetime.now().year
+        month = datetime.now().month
+        day = datetime.now().day
+
+        raw = f'raw_data_convid19_version-{year}-{month}-{day}'
+
+        self.__path = os.path.join(self.__path, raw)
+
+        try:
+            pathlib.Path(self.__path).mkdir(parents=True, exist_ok=True)
+            # os.mkdir(self.__path)
+        except FileExistsError:
+            pass
+
+        for folder in folders:
+            try:
+                pathlib.Path(
+                    os.path.join(
+                        self.__path,
+                        folder)
+                ).mkdir(parents=True, exist_ok=True)
+                # os.mkdir(os.path.join(self.__path, folder))
+            except FileExistsError:
+                pass
+
     def set_directory(self, path: [str]):
         """Recebe um texto como caminho onde deseja salvar seus downloads"""
         self.__path = os.path.expanduser(path)
+
+    def update(self):
+        pass
 
 
 if __name__ == '__main__':
     bot = ScrapeOpenDatasus([# 'ocupacao_hospitalar',
                              # 'srag',
                              # 'vacinacao_covid',
-                             'sindrome_gripal',
+                             # 'sindrome_gripal',
                              # 'google_mobility',
-                             # 'brasil_io'
+                             'brasil_io'
     ])
 
-    path = '/media/fabio/compartilhado/ModelingTaskForce/tabelas-datasus/'
+    path = '/media/fabio/compartilhado/ModelingTaskForce/datalake/'
 
     bot.set_directory(path)
     bot.get_data(1)
