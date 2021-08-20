@@ -4,7 +4,8 @@
 
 ## Table of contents
 * [General info](#general-info)
-* [Compilation](#compilation)
+* [Installation](#installation)
+* [Dependencies](#dependencies)
 * [References](#references)
 
 ## General info
@@ -14,13 +15,20 @@ We will integrate health and social-economic determinants data that are availabl
 
 At the moment, we are focusing on the studies of the COVID-19 pandemic in Brazil. The studies are part of the  Grand Challenges ICODA COVID-19 Data Science (2021-2022), supported by the Bill and Melinda Gates Foundation and Minderoo Foundation with HDR UK reference number 2021.0097, and the Fiocruz Innovation Promotion Program - INOVA-FIOCRUZ (2020-2021), Innovative ideas and products for the COVID-19 with reference number VPPIS-005-FIO-20-2-40.
 
-
-## Compilation
-
-The directory is divided into Data collection, Data curation and Data formatting folders, representing the process applied to the datasets used. Inside of each folder, we specify the disease we are working on. Finally, an example is shown for the Brazilian Covid 19 big data workflow. 
-
+The directory is divided into Data collection, Data curation and Data formatting folders, representing the process applied to the datasets used. Inside of each folder, we specify the disease we are working on. Finally, an example is shown for the Brazilian Covid 19 big data workflow.
 
 ![](images/lakecovid.png)
+
+
+# Installation
+
+Currently the library is on production, so the easiest way to use is clone our repository or copy the functions available in this directory. 
+
+
+# Dependencies
+
+Models were implemented using Python > 3.5 and depend on libraries such as [Pandas](https://github.com/pandas-dev/pandas), [SciPy](https://github.com/scipy/scipy), [Numpy](https://github.com/numpy/numpy), [Matplotlib](https://github.com/matplotlib/matplotlib), etc. For the full list of dependencies as well libraries versions check requirements.txt.
+ 
 
 ## References 
 
