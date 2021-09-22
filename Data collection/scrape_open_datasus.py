@@ -224,11 +224,9 @@ class ScrapeOpenDatasus(object):
             'data-sindrome_respiratoria_aguda_grave_incluindo_covid/'
         ]
 
-        year = datetime.now().year
-        month = datetime.now().month
-        day = datetime.now().day
+        version = datetime.now().strftime('%y-%#m-%#d')
 
-        raw = f'raw_data_convid19_version-{year}-{month}-{day}'
+        raw = f'raw_data_covid19_version-{version}'
 
         self.__path = os.path.join(self.__path, raw)
 
@@ -258,15 +256,15 @@ class ScrapeOpenDatasus(object):
 
 
 if __name__ == '__main__':
-    bot = ScrapeOpenDatasus([# 'ocupacao_hospitalar',
-                             # 'srag',
-                             # 'vacinacao_covid',
-                             # 'sindrome_gripal',
-                             # 'google_mobility',
-                             'brasil_io'
+    bot = ScrapeOpenDatasus(['ocupacao_hospitalar',
+                             'srag',
+                             'sindrome_gripal',
+                             'google_mobility',
+                             'brasil_io',
+                             'vacinacao_covid',
     ])
 
-    path = '/media/fabio/compartilhado/ModelingTaskForce/datalake/'
+    path = '/media/fabio/compartilhado/PAMEpi/datalake/'
 
     bot.set_directory(path)
-    bot.get_data(1)
+    bot.get_data(4)
