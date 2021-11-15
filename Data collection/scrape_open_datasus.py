@@ -17,7 +17,7 @@ class ScrapeOpenDatasus(object):
 
     As tabelas disponíveis até o momento são:
         - Google Mobility : 'google_mobility'
-        - Brasil.io: 'brasil_io'
+        - Wesley Cota: 'wesleycota'
         - Ocupação Hospitalar Covid-19: 'ocupacao_hospitalar'
         - SRAG 2021: 'srag'
         - Notificação Sindrome Gripal: 'sindrome_gripal'
@@ -32,7 +32,7 @@ class ScrapeOpenDatasus(object):
 
         # ou
 
-        scrape = ScrapeOpenDatasus(['brasil_io',
+        scrape = ScrapeOpenDatasus(['wesleycota',
                                     'ocupacao_hospitalar',
                                     'google_mobility',
                                     'srag',
@@ -62,8 +62,8 @@ class ScrapeOpenDatasus(object):
     # Link estatico google mobility
     mobility = 'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv'
 
-    # Link estatico brasil.io
-    brasil_io = 'https://data.brasil.io/dataset/covid19/caso_full.csv.gz'
+    # Link github wesley cota
+    wesley_cota = 'https://github.com/wcota/covid19br/raw/master/cases-brazil-cities-time.csv.gz'
 
     # Padrões que serão concatenados com o link do opendatasus, caso o usuário
     # escolha uma tabela valida.
@@ -74,11 +74,11 @@ class ScrapeOpenDatasus(object):
         'sindrome_gripal': 'casos-nacionais'
     }
 
-    def __init__(self, bases: [str, list]):
+    def __init__(self, bases, path=os.path.expanduser('~/')):
         """Recebe um texto ou uma lista, contendo o nome dos bancos
         que o usuario desejar baixar"""
         self.bases = bases
-        self.__path = os.path.expanduser('~/')
+        self.__path = path
         self.__download_url = []
 
     def get_data(self, task: int=1):
@@ -90,9 +90,9 @@ class ScrapeOpenDatasus(object):
             self.bases.remove('google_mobility')
             self.__download_url.append(self.mobility)
 
-        if 'brasil_io' in self.bases:
-            self.bases.remove('brasil_io')
-            self.__download_url.append(self.brasil_io)
+        if 'wesleycota' in self.bases:
+            self.bases.remove('wesleycota')
+            self.__download_url.append(self.wesley_cota)
 
         if isinstance(self.bases, str):
             home_url = self.opendatasus + self.databases[self.bases]
@@ -172,8 +172,8 @@ class ScrapeOpenDatasus(object):
     def __download(self, url):
         folder = ''
         directory = {
-            'caso_full.csv.gz': os.path.join(self.__path,
-                                'data-brasil_io/'),
+            'cases-brazil-cities-time.csv.gz': os.path.join(self.__path,
+                                'data-wesley_cota/'),
             'part': os.path.join(self.__path,
                                 'data-datasus_vacinacao_brasil/'),
             'sindrome': os.path.join(self.__path,
@@ -216,7 +216,7 @@ class ScrapeOpenDatasus(object):
 
     def __create_folder(self):
         folders = [
-            'data-brasil_io/',
+            'data-wesley_cota/',
             'data-datasus_vacinacao_brasil/',
             'data-notificacao_sindrome_gripal/',
             'data-google_mobility/',
@@ -247,7 +247,7 @@ class ScrapeOpenDatasus(object):
             except FileExistsError:
                 pass
 
-    def set_directory(self, path: [str]):
+    def set_directory(self, path):
         """Recebe um texto como caminho onde deseja salvar seus downloads"""
         self.__path = os.path.expanduser(path)
 
@@ -256,15 +256,15 @@ class ScrapeOpenDatasus(object):
 
 
 if __name__ == '__main__':
-    bot = ScrapeOpenDatasus(['ocupacao_hospitalar',
-                             'srag',
-                             'sindrome_gripal',
-                             'google_mobility',
-                             'brasil_io',
-                             'vacinacao_covid',
+    bot = ScrapeOpenDatasus([# 'ocupacao_hospitalar',
+                             # 'srag',
+                             # 'sindrome_gripal',
+                             # 'google_mobility',
+                             'wesleycota',
+                             # 'vacinacao_covid',
     ])
 
-    path = '/media/fabio/compartilhado/PAMEpi/datalake/'
+    path = '/media/fabio/19940C2755DB566F/PAMepi/datalake/'
 
     bot.set_directory(path)
     bot.get_data(4)
