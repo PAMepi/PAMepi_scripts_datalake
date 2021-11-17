@@ -71,6 +71,7 @@ class ScrapeOpenDatasus(object):
         'ocupacao_hospitalar': 'registro-de-ocupacao-hospitalar',
         'vacinacao_covid': 'covid-19-vacinacao',
         'srag': 'bd-srag-2021',
+        'srag20': 'bd-srag-2020',
         'sindrome_gripal': 'casos-nacionais'
     }
 
@@ -161,6 +162,7 @@ class ScrapeOpenDatasus(object):
             'ocupacao_hospitalar': ocupacao_hospitalar,
             'vacinacao_covid': vacinacao_covid,
             'srag': srag,
+            'srag20': srag,
             'sindrome_gripal': sindrome_gripal,
         }
 
@@ -258,9 +260,10 @@ class ScrapeOpenDatasus(object):
 if __name__ == '__main__':
     bot = ScrapeOpenDatasus([# 'ocupacao_hospitalar',
                              # 'srag',
+                             'srag20'
                              # 'sindrome_gripal',
                              # 'google_mobility',
-                             'wesleycota',
+                             # 'wesleycota',
                              # 'vacinacao_covid',
     ])
 
