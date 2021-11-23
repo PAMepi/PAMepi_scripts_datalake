@@ -17,7 +17,7 @@ At the moment, we are focusing on the studies of the COVID-19 pandemic in Brazil
 
 The directory has Data collection, Data curation and Data formatting folders, representing the process applied to the datasets used. Additionally, we also include the Data Description folder to process necessary analysis to enrich our datasets. Finally, inside each folder, we specify the disease we are working on. 
 
-![](Images/fig1.png)
+![](Images/fig2.png)
 *Big data workflow scheme.*
 
 # Installation
