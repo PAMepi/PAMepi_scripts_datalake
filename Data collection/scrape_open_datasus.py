@@ -258,12 +258,12 @@ class ScrapeOpenDatasus(object):
 
 
 if __name__ == '__main__':
-    bot = ScrapeOpenDatasus([# 'ocupacao_hospitalar',
-                             # 'srag',
-                             'srag20'
-                             # 'sindrome_gripal',
-                             # 'google_mobility',
-                             # 'wesleycota',
+    bot = ScrapeOpenDatasus(['ocupacao_hospitalar',
+                             'srag',
+                             'srag20',
+                             'sindrome_gripal',
+                             'google_mobility',
+                             'wesleycota',
                              # 'vacinacao_covid',
     ])
 
