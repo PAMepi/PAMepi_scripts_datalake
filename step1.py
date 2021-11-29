@@ -2,17 +2,18 @@
 
 # importing libraries
 import os
-# from datetime import datetime
+from datetime import datetime
 import yaml
 from pyspark.sql import SparkSession
 
-from myFunctions import union_all, rename_columns
+from funcoes import union_all, rename_columns
 
 
 # creating spark session
 spark = SparkSession.builder.appName('app').getOrCreate()
 
-date = '2021-11-25'
+# date = '2021-11-25'
+date = datetime.today().now().strftime('%Y-%m-%d')
 PAMEPI = '/media/fabio/19940C2755DB566F/PAMepi/datalake/'
 # version = f"raw_data_covid19_version-{datetime.now().strftime('%Y-%m-%d')}/"
 version = f"raw_data_covid19_version-{date}/"
