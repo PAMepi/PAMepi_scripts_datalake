@@ -2,11 +2,13 @@
 
 
 import os
+from datetime import datetime
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
-import pyspark.sql.functions as F
+# import pyspark.sql.functions as F
 
-date = '2021-11-25'
+# date = '2021-11-25'
+date = datetime.today().now().strftime('%Y-%m-%d')
 datalake = '/media/fabio/19940C2755DB566F/PAMepi/datalake/'
 raw = f'raw_data_covid19_version-{date}/'
 preprocess = os.path.join(datalake, raw, 'preprocess/')

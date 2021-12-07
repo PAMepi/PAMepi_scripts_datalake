@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from functools import reduce
 import pyspark.sql.functions as F
 import pyspark.sql.types as T
 

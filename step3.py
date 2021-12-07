@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from datetime import datetime
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
@@ -8,7 +9,8 @@ import pyspark.sql.types as T
 import pandas as pd
 
 
-date = '2021-11-25'
+# date = '2021-11-25'
+date = datetime.today().now().strftime('%Y-%m-%d')
 datalake = '/media/fabio/19940C2755DB566F/PAMepi/datalake/'
 raw = f'raw_data_covid19_version-{date}/'
 
@@ -17,7 +19,7 @@ groupby = os.path.join(datalake, raw, 'group_')
 
 conf = SparkConf().setAll(
     [
-        ('spark.driver.memory', '8g'),
+        ('spark.driver.memory', '12g'),
         ('spark.driver.cores', '6'),
     ]
 )
@@ -58,19 +60,19 @@ cols_sg = [
 ]
 
 
-df = spark.read.csv(os.path.join(groupby, 'sg_mun'), header=True)
-dataset = useful_ref.join(df, ['date', 'mun_res'], how='left')
+# df = spark.read.csv(os.path.join(groupby, 'sg_mun'), header=True)
+# dataset = useful_ref.join(df, ['date', 'mun_res'], how='left')
+#
+# dataset.groupby('date', 'uf_res', 'sexo', 'age_group').agg(
+#     *[F.count(c).astype('int').alias(c) for c in cols_sg]
+# ).coalesce(1).write.mode('overwrite') \
+#     .csv(os.path.join(groupby, 'sg_uf'),  header=True)
 
-dataset.groupby('date', 'uf_res', 'sexo', 'age_group').agg(
-    *[F.count(c).astype('int').alias(c) for c in cols_sg]
-).coalesce(1).write.mode('overwrite') \
-    .csv(os.path.join(groupby, 'sg_uf'),  header=True)
-
-dataset.groupby('date', 'uf_res', 'mun_res',
-                'nome_mun_res', 'sexo', 'age_group').agg(
-    *[F.count(c).astype('int').alias(c) for c in cols_sg]
-).coalesce(1).write.mode('overwrite') \
-    .csv(os.path.join(groupby, 'sg_total'),  header=True)
+# dataset.groupby('date', 'uf_res', 'mun_res',
+#                 'nome_mun_res', 'sexo', 'age_group').agg(
+#     *[F.count(c).astype('int').alias(c) for c in cols_sg]
+# ).coalesce(1).write.mode('overwrite') \
+#     .csv(os.path.join(groupby, 'sg_total'),  header=True)
 
 
 # hospitalização
