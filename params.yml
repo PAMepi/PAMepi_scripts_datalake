@@ -1,0 +1,122 @@
+data-datasus_vacinacao_brasil: 
+  enc:
+    'utf8'
+  sep:
+    ';'
+  function:
+    [preprocess]
+  cols:
+    'paciente_endereco_coibgemunicipio': 'mun_res'
+    'paciente_endereco_nmmunicipio': 'nome_mun_res'
+    'paciente_endereco_uf': 'uf_res'
+    'paciente_enumsexobiologico': 'sexo'
+    'paciente_datanascimento': 'dt_nasc'
+    'paciente_idade': 'idade'
+    'paciente_racacor_codigo': 'raca_codigo'
+    'vacina_dataaplicacao': 'date'
+    'vacina_descricao_dose': 'dose'
+    'paciente_racacor_codigo': 'raca_cod'
+
+  output:
+    'vacc_preprocess'
+data-notificacao_sindrome_gripal:
+  enc:
+    'iso-8859-1'
+  sep:
+    ';'
+  function:
+    [concat]
+  cols:
+    'datanotificacao': 'dataNotificacao'
+    'datainiciosintomas': 'dataInicioSintomas'
+    'datanascimento': 'dataNascimento'
+    'datateste': 'dataTeste'
+    'municipio': 'municipio'
+    'municipioibge': 'municipioIBGE'
+    'municipionotificacao': 'municipioNotificacao'
+    'municipionotificacaoibge': 'municipioNotificacaoIBGE'
+    'sexo': 'sexo'
+    'idade': 'idade'
+    'estado': 'estado'
+    'estadoibge': 'estadoIBGE'
+    'estadonotificacao': 'estadoNotificacao'
+    'estadonotificacaoibge': 'estadoNotificacaoIBGE'
+    'classificacaofinal': 'classificacaoFinal'
+    'evolucaocaso': 'evolucaoCaso'
+
+  output:
+    'sg_preprocess'
+
+data-ocupacao_hospitalar:
+  enc:
+    'utf8'
+  sep:
+    ','
+  function:
+    [preprocess]
+  cols:
+    'datanotificacao': 'date'
+    'ocupacaosuspeitocli': 'ocupacaoSuspeitoCli_HOS'
+    'ocupacaosuspeitouti': 'ocupacaoSuspeitoUti_HOS'
+    'ocupacaoconfirmadocli': 'ocupacaoConfirmadoCli_HOS'
+    'ocupacaoconfirmadouti': 'ocupacaoConfirmadoUti_HOS'
+    'saidasuspeitaobitos': 'saidaSuspeitaObitos_HOS'
+    'saidasuspeitaaltas': 'saidaSuspeitaAltas_HOS'
+    'saidaconfirmadaobitos': 'saidaConfirmadaObitos_HOS'
+    'saidaconfirmadaaltas': 'saidaConfirmadaAltas_HOS'
+    'municipio': 'nome_mun_res'
+    'estado': 'estado'
+  output:
+    'hosp_preprocess'
+
+data-sindrome_respiratoria_aguda_grave_incluindo_covid:
+  sep:
+    ';'
+  enc:
+    'utf8'
+  function:
+    [concat]
+  cols:
+    'dt_notific': 'dt_notific'
+    'dt_sin_pri': 'dt_sin_pri'
+    'dt_nasc': 'dt_nasc'
+    'dt_interna': 'dt_interna'
+    'dt_entuti': 'dt_entuti'
+    'dt_saiduti': 'dt_saiduti'
+    'dt_coleta': 'dt_coleta'
+    'dt_evoluca': 'dt_evoluca'
+    'dt_encerra': 'dt_encerra'
+    'dt_digita': 'dt_digita'
+    'dt_res': 'dt_res'
+    'nu_idade_n': 'nu_idade_n'
+    'cs_raca': 'cs_raca'
+    'classi_fin': 'classi_fin'
+    'classi_out': 'classi_out'
+    'evolucao': 'evolucao'
+    'sg_uf_not': 'uf_res'
+    'id_municip': 'id_municip'
+    'co_mun_not': 'co_mun_not'
+    'id_mn_resi': 'id_mn_resi'
+    'co_mun_res': 'co_mun_res'
+    'uti': 'uti'
+  output:
+  'srag_preprocess'
+
+data-wesley_cota:
+  enc:
+    'utf8'
+  sep:
+    ','
+  function:
+    [preprocess]
+  cols:
+    'date': 'date'
+    'state': 'uf_res'
+    'city': 'nome_mun_res'
+    'ibgeid': 'mun_res'
+    'newdeaths': 'newDeaths'
+    'deaths': 'deaths'
+    'newcases': 'newCases'
+    'totalcases': 'totalCases'
+  output:
+    'wcota_preprocess'
