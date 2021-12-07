@@ -34,117 +34,117 @@ conf = SparkConf().setAll(
 spark = SparkSession.builder.config(conf=conf).getOrCreate()
 
 # carregando banco de vacinação e fazendo alguns ajustes
-# df = spark.read.csv(preprocess + 'vacc_preprocess', header=True)
-# df = padroniza_texto(df, ['sexo', 'dose', 'nome_mun_res', 'uf_res'])
-# df = converte_sexo(df, 'sexo')
-# df = cria_faixa_etaria(df, 'idade')
-# df = df.withColumn('n', F.lit(1))
-# 
-# # agrupamento para visualização - vacinação
-# 
-# # 1 - estado e municipio
-# 
-# df.groupby('date', 'mun_res', 'nome_mun_res',
-#            'uf_res', 'raca_cod', 'age_group', 'sexo') \
-#     .agg(F.count(F.when(F.col('dose') != 'dose', F.col('n'))).astype('int') \
-#          .alias('dose_reg_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == 'dose', F.col('n'))).astype('int') \
-#          .alias('dose_non_reg_VAC'),
-# 
-#          F.count(F.col('n')).astype('int') \
-#          .alias('total_dose_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '1ª dose') | (F.col('dose') == 'dose inicial'),
-#              F.col('n'))).astype('int').alias('num_pri_reg_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '2ª dose') | (F.col('dose') == 'unica'),
-#              F.col('n'))).astype('int').alias('num_sec_uni_reg_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '3ª dose') |
-#              (F.col('dose') == '1º reforco') |
-#              (F.col('dose') == 'dose adicional') |
-#              (F.col('dose') == 'reforco'),
-#              F.col('n'))).astype('int').alias('num_reinforcment_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == '1ª dose revacinacao', F.col('n'))) \
-#          .astype('int').alias('num_pri_revac_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == '2ª dose revacinacao', F.col('n'))) \
-#                  .astype('int').alias('num_sec_revac_VAC')) \
-#     .coalesce(1).write.mode('overwrite') \
-#     .csv(os.path.join(groupby, 'vacc_total'), header=True)
-# 
-# # 2 - municipio
-# df.groupby('date', 'mun_res', 'raca_cod', 'age_group', 'sexo') \
-#     .agg(F.count(F.when(F.col('dose') != 'dose', F.col('n'))).astype('int') \
-#          .alias('dose_reg_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == 'dose', F.col('n'))).astype('int') \
-#          .alias('dose_non_reg_VAC'),
-# 
-#          F.count(F.col('n')).astype('int') \
-#          .alias('total_dose_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '1ª dose') | (F.col('dose') == 'dose inicial'),
-#              F.col('n'))).astype('int').alias('num_pri_reg_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '2ª dose') | (F.col('dose') == 'unica'),
-#              F.col('n'))).astype('int').alias('num_sec_uni_reg_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '3ª dose') |
-#              (F.col('dose') == '1º reforco') |
-#              (F.col('dose') == 'dose adicional') |
-#              (F.col('dose') == 'reforco'),
-#              F.col('n'))).astype('int').alias('num_reinforcment_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == '1ª dose revacinacao', F.col('n'))) \
-#          .astype('int').alias('num_pri_revac_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == '2ª dose revacinacao', F.col('n'))) \
-#                  .astype('int').alias('num_sec_revac_VAC')) \
-#     .coalesce(1).write.mode('overwrite') \
-#     .csv(os.path.join(groupby, 'vacc_mun'), header=True)
-# 
-# # 3 - estado
-# df.groupby('date', 'uf_res', 'raca_cod', 'age_group', 'sexo') \
-#     .agg(F.count(F.when(F.col('dose') != 'dose', F.col('n'))).astype('int') \
-#          .alias('dose_reg_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == 'dose', F.col('n'))).astype('int') \
-#          .alias('dose_non_reg_VAC'),
-# 
-#          F.count(F.col('n')).astype('int') \
-#          .alias('total_dose_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '1ª dose') | (F.col('dose') == 'dose inicial'),
-#              F.col('n'))).astype('int').alias('num_pri_reg_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '2ª dose') | (F.col('dose') == 'unica'),
-#              F.col('n'))).astype('int').alias('num_sec_uni_reg_VAC'),
-# 
-#          F.count(F.when(
-#              (F.col('dose') == '3ª dose') |
-#              (F.col('dose') == '1º reforco') |
-#              (F.col('dose') == 'dose adicional') |
-#              (F.col('dose') == 'reforco'),
-#              F.col('n'))).astype('int').alias('num_reinforcment_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == '1ª dose revacinacao', F.col('n'))) \
-#          .astype('int').alias('num_pri_revac_VAC'),
-# 
-#          F.count(F.when(F.col('dose') == '2ª dose revacinacao', F.col('n'))) \
-#                  .astype('int').alias('num_sec_revac_VAC')) \
-#     .coalesce(1).write.mode('overwrite') \
-#     .csv(os.path.join(groupby, 'vacc_uf'), header=True)
+df = spark.read.csv(preprocess + 'vacc_preprocess', header=True)
+df = padroniza_texto(df, ['sexo', 'dose', 'nome_mun_res', 'uf_res'])
+df = converte_sexo(df, 'sexo')
+df = cria_faixa_etaria(df, 'idade')
+df = df.withColumn('n', F.lit(1))
+
+# agrupamento para visualização - vacinação
+
+# 1 - estado e municipio
+
+df.groupby('date', 'mun_res', 'nome_mun_res',
+           'uf_res', 'raca_cod', 'age_group', 'sexo') \
+    .agg(F.count(F.when(F.col('dose') != 'dose', F.col('n'))).astype('int') \
+         .alias('dose_reg_VAC'),
+
+         F.count(F.when(F.col('dose') == 'dose', F.col('n'))).astype('int') \
+         .alias('dose_non_reg_VAC'),
+
+         F.count(F.col('n')).astype('int') \
+         .alias('total_dose_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '1ª dose') | (F.col('dose') == 'dose inicial'),
+             F.col('n'))).astype('int').alias('num_pri_reg_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '2ª dose') | (F.col('dose') == 'unica'),
+             F.col('n'))).astype('int').alias('num_sec_uni_reg_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '3ª dose') |
+             (F.col('dose') == '1º reforco') |
+             (F.col('dose') == 'dose adicional') |
+             (F.col('dose') == 'reforco'),
+             F.col('n'))).astype('int').alias('num_reinforcment_VAC'),
+
+         F.count(F.when(F.col('dose') == '1ª dose revacinacao', F.col('n'))) \
+         .astype('int').alias('num_pri_revac_VAC'),
+
+         F.count(F.when(F.col('dose') == '2ª dose revacinacao', F.col('n'))) \
+                 .astype('int').alias('num_sec_revac_VAC')) \
+    .coalesce(1).write.mode('overwrite') \
+    .csv(os.path.join(groupby, 'vacc_total'), header=True)
+
+# 2 - municipio
+df.groupby('date', 'mun_res', 'raca_cod', 'age_group', 'sexo') \
+    .agg(F.count(F.when(F.col('dose') != 'dose', F.col('n'))).astype('int') \
+         .alias('dose_reg_VAC'),
+
+         F.count(F.when(F.col('dose') == 'dose', F.col('n'))).astype('int') \
+         .alias('dose_non_reg_VAC'),
+
+         F.count(F.col('n')).astype('int') \
+         .alias('total_dose_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '1ª dose') | (F.col('dose') == 'dose inicial'),
+             F.col('n'))).astype('int').alias('num_pri_reg_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '2ª dose') | (F.col('dose') == 'unica'),
+             F.col('n'))).astype('int').alias('num_sec_uni_reg_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '3ª dose') |
+             (F.col('dose') == '1º reforco') |
+             (F.col('dose') == 'dose adicional') |
+             (F.col('dose') == 'reforco'),
+             F.col('n'))).astype('int').alias('num_reinforcment_VAC'),
+
+         F.count(F.when(F.col('dose') == '1ª dose revacinacao', F.col('n'))) \
+         .astype('int').alias('num_pri_revac_VAC'),
+
+         F.count(F.when(F.col('dose') == '2ª dose revacinacao', F.col('n'))) \
+                 .astype('int').alias('num_sec_revac_VAC')) \
+    .coalesce(1).write.mode('overwrite') \
+    .csv(os.path.join(groupby, 'vacc_mun'), header=True)
+
+# 3 - estado
+df.groupby('date', 'uf_res', 'raca_cod', 'age_group', 'sexo') \
+    .agg(F.count(F.when(F.col('dose') != 'dose', F.col('n'))).astype('int') \
+         .alias('dose_reg_VAC'),
+
+         F.count(F.when(F.col('dose') == 'dose', F.col('n'))).astype('int') \
+         .alias('dose_non_reg_VAC'),
+
+         F.count(F.col('n')).astype('int') \
+         .alias('total_dose_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '1ª dose') | (F.col('dose') == 'dose inicial'),
+             F.col('n'))).astype('int').alias('num_pri_reg_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '2ª dose') | (F.col('dose') == 'unica'),
+             F.col('n'))).astype('int').alias('num_sec_uni_reg_VAC'),
+
+         F.count(F.when(
+             (F.col('dose') == '3ª dose') |
+             (F.col('dose') == '1º reforco') |
+             (F.col('dose') == 'dose adicional') |
+             (F.col('dose') == 'reforco'),
+             F.col('n'))).astype('int').alias('num_reinforcment_VAC'),
+
+         F.count(F.when(F.col('dose') == '1ª dose revacinacao', F.col('n'))) \
+         .astype('int').alias('num_pri_revac_VAC'),
+
+         F.count(F.when(F.col('dose') == '2ª dose revacinacao', F.col('n'))) \
+                 .astype('int').alias('num_sec_revac_VAC')) \
+    .coalesce(1).write.mode('overwrite') \
+    .csv(os.path.join(groupby, 'vacc_uf'), header=True)
 
 # carregando dados municiapis do wesley cota
 df = spark.read.csv(preprocess + 'wcota_preprocess', header=True)

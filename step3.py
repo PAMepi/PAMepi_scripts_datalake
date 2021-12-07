@@ -60,13 +60,13 @@ cols_sg = [
 ]
 
 
-# df = spark.read.csv(os.path.join(groupby, 'sg_mun'), header=True)
-# dataset = useful_ref.join(df, ['date', 'mun_res'], how='left')
-#
-# dataset.groupby('date', 'uf_res', 'sexo', 'age_group').agg(
-#     *[F.count(c).astype('int').alias(c) for c in cols_sg]
-# ).coalesce(1).write.mode('overwrite') \
-#     .csv(os.path.join(groupby, 'sg_uf'),  header=True)
+df = spark.read.csv(os.path.join(groupby, 'sg_mun'), header=True)
+dataset = useful_ref.join(df, ['date', 'mun_res'], how='left')
+
+dataset.groupby('date', 'uf_res', 'sexo', 'age_group').agg(
+    *[F.count(c).astype('int').alias(c) for c in cols_sg]
+).coalesce(1).write.mode('overwrite') \
+    .csv(os.path.join(groupby, 'sg_uf'),  header=True)
 
 # dataset.groupby('date', 'uf_res', 'mun_res',
 #                 'nome_mun_res', 'sexo', 'age_group').agg(
