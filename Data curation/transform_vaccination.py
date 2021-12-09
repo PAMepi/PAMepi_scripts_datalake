@@ -113,11 +113,13 @@ doses = [
 for dose in doses:
     df = df.withColumn(dose, F.when(F.col('dose') == dose, F.col('date')))
 
+# setting columns to grouping but removing the columns "date" default
 columns = df.columns
+columns.remove('date')
 
 # add doses list to default columns
 columns.extend(doses)
 
 # aggregating
-df.groupby(columns).count().drop('date', 'count').coalesce(1) \
+df.groupby(columns).count().drop('count').coalesce(1) \
     .write.csv(OUTPUT, header=True)
