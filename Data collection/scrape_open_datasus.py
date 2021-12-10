@@ -226,7 +226,7 @@ class ScrapeOpenDatasus(object):
             'data-sindrome_respiratoria_aguda_grave_incluindo_covid/'
         ]
 
-        version = datetime.now().strftime('%y-%#m-%#d')
+        version = datetime.now().strftime('%Y-%#m-%#d')
 
         raw = f'raw_data_covid19_version-{version}'
 
@@ -259,12 +259,12 @@ class ScrapeOpenDatasus(object):
 
 if __name__ == '__main__':
     bot = ScrapeOpenDatasus(['ocupacao_hospitalar',
+                             'vacinacao_covid',
                              'srag',
                              'srag20',
                              'sindrome_gripal',
                              'google_mobility',
                              'wesleycota',
-                             # 'vacinacao_covid',
     ])
 
     path = '/media/fabio/19940C2755DB566F/PAMepi/datalake/'
