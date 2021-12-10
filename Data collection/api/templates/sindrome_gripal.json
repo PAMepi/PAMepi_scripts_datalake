@@ -1,0 +1,36 @@
+{
+    "size": 10000,
+    "_source": [
+        "outrasCondicoes", "cbo", "sintomas",
+        "codigoTriagemPopulacaoEspecifica", "dataNascimento",
+        "localRealizacaoTestagem", "codigoBuscaAtivaAssintomatico",
+        "estadoTeste", "sexo", "cnes", "profissionalSaude",
+        "profissionalSeguranca", "estadoNotificacao", "@timestamp",
+        "codigoEstrategiaCovid", "condicoes", "dataInicioSintomas",
+        "idCollection", "codigoLocalRealizacaoTestagem",
+        "municipioNotificacaoIBGE", "id", "classificacaoFinal",
+        "municipioIBGE", "dataNotificacao", "estrategiaCovid",
+        "outroTriagemPopulacaoEspecifica", "dataTeste", "estado", "racaCor",
+        "idade", "outroBuscaAtivaAssintomatico", "registroAtual",
+        "outroLocalRealizacaoTestagem", "municipio", "estadoIBGE",
+        "buscaAtivaAssintomatico", "testes", "paisOrigem", "dataEncerramento",
+        "evolucaoCaso", "triagemPopulacaoEspecifica", "tipoTeste",
+        "estadoNotificacaoIBGE", "outrosSintomas", "resultadoTeste",
+        "municipioNotificacao"
+    ],
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "range": {
+                        "dataNotificacao": {
+                            "gte": "2021-11-28",
+                            "lte": "2021-11-30"
+                        }
+                    }
+                },
+                { "match": { "estadoNotificacao": "rondônia" } }
+            ]
+                }
+        }
+}

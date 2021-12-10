@@ -1,0 +1,25 @@
+{
+    "size": 10000,
+    "_source": [
+        "estado", "estadoSigla", "municipio","cnes", "nomeCnes",
+        "dataNotificacaoOcupacao", "ofertaRespiradores", "ofertaHospCli",
+        "ofertaHospUti", "ofertaSRAGCli", "ofertaSRAGUti", "ocupHospCli",
+        "ocupHospUti", "ocupSRAGCli", "ocupSRAGUti", "altas", "obitos",
+        "ocupacaoInformada", "algumaOcupacaoInformada"
+    ],
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "range": {
+                        "dataNotificacaoOcupacao": {
+                            "gte": "2021-11-30",
+                            "lte": "2021-12-03"
+                        }
+                    }
+                },
+                {"match": {"estado": "Rondônia"}}
+            ]
+        }
+    }
+}

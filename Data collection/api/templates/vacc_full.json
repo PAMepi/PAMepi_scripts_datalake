@@ -1,0 +1,10 @@
+{
+    "size": 10000,
+    "_source": [
+        "document_id", "vacina_dataAplicacao",
+        "vacina_descricao_dose", "paciente_endereco_uf",
+        "paciente_endereco_nmMunicipio",
+        "paciente_endereco_coIbgeMunicipio", "paciente_idade",
+        "paciente_enumSexoBiologico"
+    ]
+}
