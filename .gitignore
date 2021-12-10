@@ -2,3 +2,4 @@ __pycache__/
 .venv
 *.csv
 .gitignore
+Data\ collection/scrape_open_datasus.py
