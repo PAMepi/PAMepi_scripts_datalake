@@ -3,3 +3,4 @@ __pycache__/
 *.csv
 .gitignore
 Data\ collection/scrape_open_datasus.py
+api/templates/vacinacao.json
