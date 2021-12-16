@@ -1,6 +1,7 @@
 __pycache__/
 .venv
 *.csv
+*.json
 .gitignore
 Data\ collection/scrape_open_datasus.py
-Data\ collection/api/templates/
+Data collection/api/templates/
