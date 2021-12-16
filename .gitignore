@@ -3,4 +3,4 @@ __pycache__/
 *.csv
 .gitignore
 Data\ collection/scrape_open_datasus.py
-api/templates/*.json
+Data\ collection/api/templates/*.json
