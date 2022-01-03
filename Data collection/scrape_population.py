@@ -5,7 +5,7 @@ import pandas as pd
 
 
 ufs = {
-    'Acre': 12, 'Alagoas': '27', 'Amapá': '16', 'Amazonas': '13', 'Bahia': 29,
+    'Acre': 12, 'Alagoas': 27, 'Amapá': 16, 'Amazonas': 13, 'Bahia': 29,
     'Ceará': 23, 'Distrito Federal': 53, 'Espírito Santo': 32, 'Goiás': 52,
     'Maranhão': 21, 'Mato Grosso': 51, 'Mato Grosso do Sul': 50,
     'Minas Gerais': 31, 'Pará': 15, 'Paraíba': 25, 'Paraná': 41,
@@ -18,8 +18,10 @@ ufs = {
 
 result = {'Estado': [], 'Cod_Uf': [], 'Populacao': []}
 
+url = f'https://servicodados.ibge.gov.br/api/v1/projecaopopulacao?cod=*'
+
 for uf, cod in ufs.items():
-    api = f'https://servicodados.ibge.gov.br/api/v1/projecaopopulacao?cod={cod}'
+    api = url.replace('*', str(cod))
     r = requests.get(api)
     result['Estado'].append(uf)
     result['Cod_Uf'].append(cod)
