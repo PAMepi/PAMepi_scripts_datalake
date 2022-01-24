@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import os
+import pathlib
+from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -8,8 +10,10 @@ from tqdm import tqdm
 
 # set folders
 datalake = '/media/fabio/19940C2755DB566F/PAMepi/datalake'
-raw = 'raw_data_covid19_version-2022-01-20'
+raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
 output_sg = os.path.join(datalake, raw, 'data-notificacao_sindrome_gripal')
+
+pathlib.Path(output_sg).mkdir(parents=True, exist_ok=True)
 
 # main url
 url = 'https://opendatasus.saude.gov.br/dataset/'

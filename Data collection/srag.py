@@ -1,4 +1,8 @@
+#!/usr/bin/env python3
+
 import os
+import pathlib
+from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -6,8 +10,10 @@ from tqdm import tqdm
 
 # set folders
 datalake = '/media/fabio/19940C2755DB566F/PAMepi/datalake'
-raw = 'raw_data_covid19_version-2022-01-20'
+raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
 output_srag = os.path.join(datalake, raw, 'data-sindrome_respiratoria_aguda_grave_incluindo_covid/')
+
+pathlib.Path(output_srag).mkdir(parents=True, exist_ok=True)
 
 # main url
 url = 'https://opendatasus.saude.gov.br/dataset/'
