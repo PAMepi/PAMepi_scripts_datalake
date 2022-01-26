@@ -86,4 +86,4 @@ class ApiOpendatasus:
 
 if __name__ == '__main__':
     api = ApiOpendatasus('vacinacao')
-    api.get_data('/media/fabio/19940C2755DB566F/PAMepi/datalake/raw_data_covid19_version-2021-12-05/data-datasus_vacinacao_brasil/vacinacao.csv', template='vacinacao.json')
+    api.get_data('/media/fabio/19940C2755DB566F/PAMepi/datalake/raw_data_covid19_version-2021-12-05/data-datasus_vacinacao_brasil/vacinacao.csv', template='vacc_full.json')
