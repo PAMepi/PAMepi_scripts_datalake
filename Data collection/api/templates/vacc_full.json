@@ -1,10 +1,59 @@
 {
     "size": 10000,
     "_source": [
-        "document_id", "vacina_dataAplicacao",
-        "vacina_descricao_dose", "paciente_endereco_uf",
+        "vacina_fabricante_nome",
+        "paciente_endereco_coPais",
+        "vacina_grupoAtendimento_nome",
+        "sistema_origem",
+        "@timestamp",
+        "estabelecimento_razaoSocial",
+        "data_importacao_rnds",
+        "vacina_descricao_dose",
+        "estabelecimento_municipio_nome",
+        "vacina_grupoAtendimento_codigo",
+        "vacina_categoria_codigo",
+        "document_id",
+        "paciente_endereco_nmPais",
+        "estabelecimento_uf",
+        "estalecimento_noFantasia",
+        "vacina_numDose",
+        "vacina_categoria_nome",
+        "paciente_nacionalidade_enumNacionalidade",
+        "vacina_fabricante_referencia",
+        "@version",
+        "paciente_endereco_coIbgeMunicipio",
+        "vacina_lote",
+        "paciente_idade",
+        "paciente_racaCor_codigo",
+        "estabelecimento_municipio_codigo",
+        "data_importacao_datalake",
+        "id_sistema_origem",
         "paciente_endereco_nmMunicipio",
-        "paciente_endereco_coIbgeMunicipio", "paciente_idade",
-        "paciente_enumSexoBiologico"
-    ]
+        "paciente_racaCor_valor",
+        "status",
+        "paciente_endereco_cep",
+        "vacina_codigo",
+        "vacina_nome",
+        "estabelecimento_valor",
+        "paciente_enumSexoBiologico",
+        "paciente_dataNascimento",
+        "vacina_dataAplicacao",
+        "paciente_id",
+        "dt_deleted",
+        "paciente_endereco_uf"
+    ],
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "range": {
+                        "vacina_dataAplicacao": {
+                            "gte": "2021-12-05",
+                            "lte": "now"
+                        }
+                    }
+                }
+            ]
+        }
+    }
 }
