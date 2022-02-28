@@ -4,8 +4,8 @@ import os
 # from datetime import datetime
 from unidecode import unidecode
 from pyspark.sql.functions import (
-    add_months, col, count, concat_ws, date_sub,
-    explode_outer, first, isnan, lit, split, months_between, udf, when
+    add_months, col, count, concat_ws,
+    first, isnan, lit, split, months_between, udf, when
 )
 from pyspark.sql.types import StringType, IntegerType
 
@@ -110,6 +110,8 @@ rw = rw.withColumn('idade', col('idade').cast(IntegerType())) \
     .withColumn('fx_etaria', fx_etaria(col('idade')))
 
 
+rw = rw.withColumn('dt_min', lit('2021-01-17'))
+
 primeira_dose_ou_unica = []
 
 for coluna in rw.columns:
@@ -121,11 +123,11 @@ for dose in primeira_dose_ou_unica:
     rw = rw.withColumn(
         dose,
         when(
-            split(col(dose), ',').getItem(0) <
-            '2021-01-17',
+            (split(col(dose), ',').getItem(0) <
+            '2021-01-17'),
             concat_ws(
                 ',',
-                lit('2021-01-17'),
+                col('dt_min'),
                 split(col(dose), ',').getItem(1)
             )
         ).otherwise(col(dose))
@@ -136,8 +138,8 @@ for dose in ['1a dose', 'dose inicial']:
     rw = rw.withColumn(
         '2a dose',
         when(
-            (split(col('2a dose'), ',').getItem(0) <
-             split(col(dose), ',').getItem(0)),
+            (split(col('2a dose'), ',').getItem(0)) <
+            (split(col(dose), ',').getItem(0)),
             concat_ws(
                 ',',
                 add_months(split(col(dose), ',').getItem(0), 3),
@@ -147,44 +149,73 @@ for dose in ['1a dose', 'dose inicial']:
     )
 
 
+# for dose in ['1a dose', 'dose inicial']:
+#     rw = rw.withColumn(
+#         dose,
+#         when(
+#             (col(dose).isNull()) &
+#             (col('2a dose').isNotNull()),
+#             concat_ws(
+#                 ',',
+#                 date_sub(split(col('2a dose'), ',').getItem(0), 90),
+#                 split(col('2a dose'), ',').getItem(1)
+#             )
+#         ).otherwise(col(dose))
+#     )
+
+
+# QUEBRANDO CODIGO AQUI
+# for dose in ['1a dose', 'dose inicial']:
+#     rw = rw.withColumn(
+#         '2a dose',
+#         when(
+#             (col('2a dose').isNull()),
+#             when(
+#                 (col('3a dose').isNotNull()) &
+#                 (col(dose).like('%janssen%')),
+#                 lit(None)
+#             ) \
+#             .when(
+#                 (col('3a dose').isNotNull()) &
+#                 (~col(dose).like('%janssen%')),
+#                 concat_ws(
+#                     ',',
+#                     add_months(split(col(dose), ',').getItem(0), 3),
+#                     split(col(dose), ',').getItem(1))
+#             )
+#         ).otherwise(col('2a dose'))
+#     )
+
+
+rw = rw.withColumn(
+    'unica',
+    when(
+        (col('1a dose').like('%janssen%')),
+        col('1a dose')
+    ).when(
+        (col('dose inicial').like('%janssen%')),
+        col('dose inicial')
+    ).otherwise(col('unica'))
+)
+
 for dose in ['1a dose', 'dose inicial']:
     rw = rw.withColumn(
+        # '1a dose',
         dose,
         when(
-            (col(dose).isNull()) &
-            (col('2a dose').isNotNull()),
-            concat_ws(
-                ',',
-                date_sub(split(col('2a dose'), ',').getItem(0), 90),
-                split(col('2a dose'), ',').getItem(1)
-            )
+            # (col('1a dose').like('%janssen%')),
+            (col(dose).like('%janssen%')),
+            lit(None)
         ).otherwise(col(dose))
     )
 
-
-for dose in ['1a dose', 'dose inicial']:
-    rw = rw.withColumn(
-        '2a dose',
-        when(
-            col('2a dose').isNull(),
-            when(
-                (col('3a dose').isNotNull()) &
-                (col(dose).isNotNull()),
-                when(
-                    col(dose).like('%JANSSEN%'),
-                    col('2a dose')
-                ) \
-                .when(
-                    ~ col(dose).like('%JANSSEN%'),
-                    concat_ws(
-                        ',',
-                        add_months(split(col(dose), ',').getItem(0), 3),
-                        split(col(dose), ',').getItem(1))
-                )
-            )
-        ).otherwise(col('2a dose'))
-    )
-
+# rw = rw.withColumn(
+#     'dose inicial',
+#     when(
+#         (col('dose inicial').like('%janssen%')),
+#         lit(None)
+#     ).otherwise(col('dose inicial'))
+# )
 
 # rw = rw.withColumn(
 #     'dose adicional',
@@ -304,7 +335,6 @@ for dose in ['1a dose', 'dose inicial']:
 #         ).otherwise(col('3a dose'))
 #     ).otherwise(col('3a dose'))
 # )
-
 
 rw = rw.withColumn(
     'apenas_primeira_dose',
@@ -466,49 +496,53 @@ rw = rw.withColumn(
     when(
         col('apenas_primeira_dose').isNotNull(),
         when(months_between(
-                col('dt_pattern'),
-                split(col('apenas_primeira_dose'), ',').getItem(0)
-            ) > 6, 1)
-        )
+            col('dt_pattern'),
+            split(col('apenas_primeira_dose'), ',').getItem(0)
+        ) > 6, 1)
     )
+)
 
 rw = rw.withColumn(
     'i >= 2 < 6',
     when(
         col('apenas_primeira_dose').isNotNull(),
-        when((
-            months_between(
+        when(
+            (months_between(
                 col('dt_pattern'),
-                split(col('apenas_primeira_dose'), ',').getItem(0)
-            ) >= 2) &
-             (months_between(
-                 col('dt_pattern'),
-                 split(col('apenas_primeira_dose'), ',').getItem(0)
-            ) < 6), 1)
-        )
+                split(col('apenas_primeira_dose'), ',').getItem(0)) >= 2
+             ) &
+            (months_between(
+                col('dt_pattern'),
+                split(col('apenas_primeira_dose'), ',').getItem(0)) < 6
+             ), 1)
     )
+)
 
 
 rw = rw.withColumn(
     'i < 2',
     when(
         col('apenas_primeira_dose').isNotNull(),
-        when(months_between(
+        when(
+            months_between(
                 col('dt_pattern'),
                 split(col('apenas_primeira_dose'), ',').getItem(0)
-            ) < 2, 1)
+            ) < 2, 1
         )
     )
+)
 
 
 rw = rw.withColumn(
     'c >= 6',
     when(
         col('imunizados_sem_booster').isNotNull(),
-        when(months_between(
+        when(
+            months_between(
                 col('dt_pattern'),
                 split(col('imunizados_sem_booster'), ',').getItem(0)
-            ) >= 6, 1)
+            ) >= 6, 1
+        )
     )
 )
 
@@ -519,10 +553,12 @@ rw = rw.withColumn(
         when(
             (months_between(
                 col('dt_pattern'),
-                split(col('imunizados_com_booster'), ',').getItem(0)) >= 2) &
+                split(col('imunizados_sem_booster'), ',').getItem(0)) >= 2
+             ) &
             (months_between(
                 col('dt_pattern'),
-                split(col('imunizados_com_booster'), ',').getItem(0)) < 6), 1
+                split(col('imunizados_sem_booster'), ',').getItem(0)) < 6
+             ), 1
         )
     )
 )
@@ -535,7 +571,8 @@ rw = rw.withColumn(
         when(
             months_between(
                 col('dt_pattern'),
-                split(col('imunizados_sem_booster'), ',').getItem(0)) < 2, 1
+                split(col('imunizados_sem_booster'), ',').getItem(0)
+            ) < 2, 1
         )
     )
 )
@@ -545,28 +582,11 @@ rw = rw.withColumn(
     when(
         col('imunizados_com_booster').isNotNull(),
         when(
-            (col('1o reforco').isNotNull()) &
             (months_between(
                 col('dt_pattern'),
-                split(col('1o reforco'), ',').getItem(0)) >= 6), 1
-        ) \
-        .when(
-            (col('reforco').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('reforco'), ',').getItem(0)) >= 6), 1
-        ) \
-        .when(
-            (col('3a dose').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('3a dose'), ',').getItem(0)) >= 6), 1
-        ) \
-        .when(
-            (col('dose adicional').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('dose adicional'), ',').getItem(0)) >= 6), 1
+                split(col('imunizados_com_booster'), ',').getItem(0)
+            ) >= 6
+             ), 1
         )
     )
 )
@@ -576,133 +596,118 @@ rw = rw.withColumn(
     when(
         col('imunizados_com_booster').isNotNull(),
         when(
-            (col('1o reforco').isNotNull()) &
             (months_between(
                 col('dt_pattern'),
-                split(col('1o reforco'), ',').getItem(0)) >= 2) &
+                split(col('imunizados_com_booster'), ',').getItem(0)) >= 2
+             ) &
             (months_between(
                 col('dt_pattern'),
-                split(col('1o reforco'), ',').getItem(0)) < 6), 1
-        ) \
-        .when(
-            (col('reforco').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('reforco'), ',').getItem(0)) >= 2) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('reforco'), ',').getItem(0)) < 6), 1
-        ) \
-        .when(
-            (col('3a dose').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('3a dose'), ',').getItem(0)) >= 2) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('3a dose'), ',').getItem(0)) < 6), 1
-        ) \
-        .when(
-            (col('dose adicional').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('dose adicional'), ',').getItem(0)) >= 2) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('dose adicional'), ',').getItem(0)) < 6), 1
+                split(col('imunizados_com_booster'), ',').getItem(0)) < 6
+             ), 1
         )
     )
 )
-
 
 rw = rw.withColumn(
     'c + b < 2',
     when(
         col('imunizados_com_booster').isNotNull(),
         when(
-            (col('1o reforco').isNotNull()) &
-            (months_between(col('dt_pattern'),
-                            split(col('1o reforco'), ',').getItem(0)) < 2), 1
-        ) \
-        .when(
-            (col('reforco').isNotNull()) &
             (months_between(
                 col('dt_pattern'),
-                split(col('reforco'), ',').getItem(0)) < 2), 1
-        ) \
-        .when(
-            (col('3a dose').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('3a dose'), ',').getItem(0)) < 2), 1
-        ) \
-        .when(
-            (col('dose adicional').isNotNull()) &
-            (months_between(
-                col('dt_pattern'),
-                split(col('dose adicional'), ',').getItem(0)) < 2), 1
+                split(col('imunizados_com_booster'), ',').getItem(0)
+            ) < 2), 1
         )
     )
 )
 
 
-rw.groupby('sexo').count().show(truncate=False)
-rw.groupby('raca').count().show(truncate=False)
-rw.groupby('fx_etaria').count().show(truncate=False)
+# rw.groupby('sexo').count().show(truncate=False)
+# rw.groupby('raca').count().show(truncate=False)
+# rw.groupby('fx_etaria').count().show(truncate=False)
+# 
+# 
+# rw.groupby('sexo') \
+#     .agg(
+#         count(col('apenas_primeira_dose')) \
+#         .astype('int').alias('apenas_primeira_dose'),
+# 
+#         count(col('imunizados_sem_booster')) \
+#         .astype('int').alias('imunizados_sem_booster'),
+# 
+#         count(col('imunizados_com_booster')) \
+#         .astype('int').alias('imunizados_com_booster')
+# 
+#     ).show(truncate=False)
+# 
+# 
+# rw.groupby('raca') \
+#     .agg(
+#         count(col('apenas_primeira_dose')) \
+#         .astype('int').alias('apenas_primeira_dose'),
+# 
+#         count(col('imunizados_sem_booster')) \
+#         .astype('int').alias('imunizados_sem_booster'),
+# 
+#         count(col('imunizados_com_booster')) \
+#         .astype('int').alias('imunizados_com_booster')
+# 
+#     ).show(truncate=False)
+# 
+# 
+# rw.groupby('fx_etaria') \
+#     .agg(
+#         count(col('apenas_primeira_dose')) \
+#         .astype('int').alias('apenas_primeira_dose'),
+# 
+#         count(col('imunizados_sem_booster')) \
+#         .astype('int').alias('imunizados_sem_booster'),
+# 
+#         count(col('imunizados_com_booster')) \
+#         .astype('int').alias('imunizados_com_booster')
+# 
+#     ).show(truncate=False)
 
 
-rw.groupby('sexo') \
-    .agg(
-        count(col('apenas_primeira_dose')) \
-        .astype('int').alias('apenas_primeira_dose'),
+rw = rw.withColumn(
+    'apenas_primeira_dose_vacina',
+    when(
+        col('apenas_primeira_dose').isNotNull(),
+        split(col('apenas_primeira_dose'), ',').getItem(1)
+    ).otherwise(lit('999'))
 
-        count(col('imunizados_sem_booster')) \
-        .astype('int').alias('imunizados_sem_booster'),
+).withColumn(
+   'imunizados_sem_booster_vacina',
+    when(
+        col('imunizados_sem_booster').isNotNull(),
+        split(col('imunizados_sem_booster'), ',').getItem(1)
+    ).otherwise(lit('999'))
 
-        count(col('imunizados_com_booster')) \
-        .astype('int').alias('imunizados_com_booster')
+).withColumn(
+  'imunizados_com_booster_vacina',
+    when(
+        col('imunizados_com_booster').isNotNull(),
+        split(col('imunizados_com_booster'), ',').getItem(1)
+    ).otherwise(lit('999'))
 
-    ).show(truncate=False)
-
-
-rw.groupby('raca') \
-    .agg(
-        count(col('apenas_primeira_dose')) \
-        .astype('int').alias('apenas_primeira_dose'),
-
-        count(col('imunizados_sem_booster')) \
-        .astype('int').alias('imunizados_sem_booster'),
-
-        count(col('imunizados_com_booster')) \
-        .astype('int').alias('imunizados_com_booster')
-
-    ).show(truncate=False)
+)
 
 
-rw.groupby('fx_etaria') \
-    .agg(
-        count(col('apenas_primeira_dose')) \
-        .astype('int').alias('apenas_primeira_dose'),
+# rw.agg(
+#     count('i >= 6').astype('int').alias('i >= 6'),
+#     count('i >= 2 < 6').astype('int').alias('i >= 2 < 6'),
+#     count('i < 2').astype('int').alias('i < 2'),
+# 
+#     count('c >= 6').astype('int').alias('c >= 6'),
+#     count('c >= 2 < 6').astype('int').alias('c >= 2 < 6'),
+#     count('c < 2').astype('int').alias('c < 2'),
+# 
+#     count('c + b >= 6').astype('int').alias('c + b >= 6'),
+#     count('c + b >= 2 < 6').astype('int').alias('c + b >= 2 < 6'),
+#     count('c + b < 2').astype('int').alias('c + b < 2'),
+# ).show(truncate=False)
 
-        count(col('imunizados_sem_booster')) \
-        .astype('int').alias('imunizados_sem_booster'),
 
-        count(col('imunizados_com_booster')) \
-        .astype('int').alias('imunizados_com_booster')
-
-    ).show(truncate=False)
-
-
-rw.agg(
-    count('i >= 6').astype('int').alias('i >= 6'),
-    count('i >= 2 < 6').astype('int').alias('i >= 2 < 6'),
-    count('i < 2').astype('int').alias('i < 2'),
-
-    count('c >= 6').astype('int').alias('c >= 6'),
-    count('c >= 2 < 6').astype('int').alias('c >= 2 < 6'),
-    count('c < 2').astype('int').alias('c < 2'),
-
-    count('c + b >= 6').astype('int').alias('c + b >= 6'),
-    count('c + b >= 2 < 6').astype('int').alias('c + b >= 2 < 6'),
-    count('c + b < 2').astype('int').alias('c + b < 2'),
-).show()
+# rw.groupby('apenas_primeira_dose_vacina').count().show(truncate=False)
+rw.groupby('imunizados_sem_booster_vacina').count().show(truncate=False)
+rw.groupby('imunizados_com_booster_vacina').count().show(truncate=False)
