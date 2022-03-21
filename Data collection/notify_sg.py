@@ -8,29 +8,18 @@ from bs4 import BeautifulSoup
 from tqdm import tqdm
 
 
-# set folders
 datalake = '/media/fabio/19940C2755DB566F/PAMepi/datalake'
 raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
 output_sg = os.path.join(datalake, raw, 'data-notificacao_sindrome_gripal')
 
-pathlib.Path(output_sg).mkdir(parents=True, exist_ok=True)
-
-# main url
 url = 'https://opendatasus.saude.gov.br/dataset/'
 
-# endpoint that matter
-dataset = 'notificacoes-de-sindrome-gripal'
+list_endpoints = [
+    'notificacoes-de-sindrome-gripal-leve-2020',
+    'notificacoes-de-sindrome-gripal-leve-2021',
+    'notificacoes-de-sindrome-gripal-leve-2022',
+]
 
-# getting the page
-r = requests.get(os.path.join(url, dataset))
-
-# parsing the page
-soup = BeautifulSoup(r.text, 'html.parser')
-
-# pickup all elements <a> in page
-tag_a = soup.findAll('a')
-
-# list uf
 ufs = [
     'AC', 'AP', 'AM', 'PA', 'RO', 'RR', 'TO',
     'AL', 'BA', 'CE', 'MA', 'PB', 'PE', 'PI',
@@ -38,52 +27,42 @@ ufs = [
     'MG', 'RJ', 'SP', 'PR', 'RS', 'SC'
 ]
 
-# concating string 'Dados' with uf in ufs
-list_uf_text = list(map(lambda x: 'Dados ' + x, ufs))
+for endpoint in list_endpoints:
+    part_parth = endpoint.replace('notificacoes-de-', '')
+    folder_dataset = os.path.join(output_sg, part_parth)
+    pathlib.Path(folder_dataset).mkdir(parents=True, exist_ok=True)
 
-# declaring dictionary
-data_url = {}
-
-# find by text containing 'Dados *'
-for tag in tag_a:
-    # cleaning spaces in blank and \n on element
-    string = tag.text.lstrip('\n').rstrip('\n').lstrip(' ').rstrip(' ')[0:8]
-
-    # comparing text on element web with list of ufs
-    for string_uf in list_uf_text:
-        if string_uf == string:
-            # adding string and href to dictionary
-            href = tag['href']
-            data_url[string] = href.lstrip('/dataset/')
-
-# iterating urls
-for csv_url in data_url.values():
-    # getting the new page
-    r = requests.get(os.path.join(url, csv_url))
-
-    # parsing the content in page
+    r = requests.get(os.path.join(url, endpoint))
     soup = BeautifulSoup(r.text, 'html.parser')
-
-    # pickup all elements <a>
     tag_a = soup.findAll('a')
+    list_uf_text = list(map(lambda x: 'Dados ' + x, ufs))
+    data_url = {}
 
-    # iterating in list of <a>
     for tag in tag_a:
-        # searching for text containing .csv in final
-        if tag['href'].endswith('.csv'):
-            # getting the file like in stream
-            file_csv = requests.get(tag['href'], stream=True)
+        string = tag.text.lstrip('\n').rstrip('\n').lstrip(' ').rstrip(' ')[0:8]
 
-            # opening the file and defining config for progress bar
-            with open(os.path.join(output_sg, tag.text), 'wb') as f, tqdm(
-                desc=tag.text,
-                total=int(file_csv.headers['Content-Length']),
-                unit='iB',
-                unit_scale=True,
-                unit_divisor=1024
-            ) as bar:
-                # iterating chunk and writing on file opened
-                for content in file_csv.iter_content(chunk_size=1024):
-                    size = f.write(content)
-                    # updating progress bar
-                    bar.update(size)
+        for string_uf in list_uf_text:
+            if string_uf == string:
+
+                href = tag['href']
+                data_url[string] = href.lstrip('/dataset/')
+
+    for csv_url in data_url.values():
+        r = requests.get(os.path.join(url, csv_url))
+        soup = BeautifulSoup(r.text, 'html.parser')
+        tag_a = soup.findAll('a')
+
+        for tag in tag_a:
+            if tag['href'].endswith('.csv'):
+                file_csv = requests.get(tag['href'], stream=True)
+
+                with open(os.path.join(folder_dataset, tag.text), 'wb') as f, tqdm(
+                    desc=tag.text,
+                    total=int(file_csv.headers['Content-Length']),
+                    unit='iB',
+                    unit_scale=True,
+                    unit_divisor=1024
+                ) as bar:
+                    for content in file_csv.iter_content(chunk_size=1024):
+                        size = f.write(content)
+                        bar.update(size)
