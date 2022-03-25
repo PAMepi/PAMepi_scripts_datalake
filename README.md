@@ -21,7 +21,9 @@ The results of the process developed here are fundamental resources that enable 
 The directory has four main folders: Data collection, Data curation, Data description and Data ETL, representing the process applied to the datasets used. Finally, we specify the disease we are working on inside each folder. 
 
 * Data collection: contains the scripts to download data from open sources. 
+
 	** All data collection plans are described in [[1]](#1). 
+
 	** The data collection plan for the Covid-19 pandemic can be found in [[2]](#2) and the scripts to download the data are (Fabio colocar o link para os scripst aqui, ou 	   o nome deles ou um file que nomear todos eles. (Exe: scriptSRAG, scriptSG,...)
 
 ## Installation
