@@ -38,3 +38,4 @@ This study was financed by Bill and Melinda Gates Foundation and Minderoo Founda
 
 ## References 
 
+<a id="1">[1]</a>  Platform for Analytical Models in Epidemiology - [PAMEpi](https://pamepi.rondonia.fiocruz.br/en/index_en.html) (2020).
