@@ -1,12 +1,15 @@
 
-# <img src="Images/logo.png" width="80"/>   Data Lake for the Platform for analytical models in epidemiology (PAMEpi)
+# <img src="Images/logo.png" width="80"/>   Data Lake for the Platform for Analytical Models in Epidemiology (PAMEpi)
 [![DOI](https://zenodo.org/badge/396775199.svg)](https://zenodo.org/badge/latestdoi/396775199)
 
 ## Table of contents
 * [General info](#general-info)
+* [Directory structure](#directory-structure)
 * [Installation](#installation)
 * [Dependencies](#dependencies)
-* [References](#references)
+* [Licence](#licence)
+* [Citing the directory](#citing-directory)
+* [References and links](#references)
 
 ## General info
 This directory contributes to developing the big data architecture of  PAMEpi.  The work produced here aims to grab all data related to infectious diseases analysed in the platform. Among them are data over a range of individual infectious status, socio-economic and human behaviour. 
