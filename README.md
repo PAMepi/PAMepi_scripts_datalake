@@ -44,6 +44,8 @@ Models were implemented using Python > 3.5 and depend on libraries such as [Pand
 
 ## Citing the directory
 
+Fábio M. H. S. Filho, Moreno S. Rodrigues, & Juliane F. Oliveira. (2022). PAMepi/PAMepi_scripts_datalake: v1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.6384641
+
 ## Support
 
 This study was financed by Bill and Melinda Gates Foundation and Minderoo Foundation HDR UK, through the Grand Challenges ICODA COVID-19 Data Science, with reference number 2021.0097 and the Fiocruz Innovation Promotion Program - Innovative ideas and products - COVID-19, orders and strategies INOVA-FIOCRUZ, with reference Number VPPIS-005-FIO-20-2-40.
