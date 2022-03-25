@@ -29,6 +29,9 @@ Currently the library is on production, so the easiest way to use is clone our r
 
 Models were implemented using Python > 3.5 and depend on libraries such as [Pandas](https://github.com/pandas-dev/pandas), [SciPy](https://github.com/scipy/scipy), [Numpy](https://github.com/numpy/numpy), [Matplotlib](https://github.com/matplotlib/matplotlib), etc. For the full list of dependencies as well libraries versions check requirements.txt.
  
+# License
+
+![]()
 
 ## References 
 
