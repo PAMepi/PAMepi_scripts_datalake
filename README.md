@@ -1,7 +1,5 @@
 
-# <img src="Images/logo.png" width="80"/>   
-
-![Alt](Images/logo.png " ") Data Lake for the Platform for Analytical Models in Epidemiology (PAMEpi)
+# <img src="Images/logo.png" width="80"/> Data Lake for the Platform for Analytical Models in Epidemiology (PAMEpi)
 
 [![DOI](https://zenodo.org/badge/396775199.svg)](https://zenodo.org/badge/latestdoi/396775199)
 
