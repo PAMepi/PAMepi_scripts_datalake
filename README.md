@@ -1,6 +1,7 @@
 ![](Images/realizacao.png)
 
 # Data Lake for the Platform for analytical models in epidemiology (PAMEpi)
+[![DOI](https://zenodo.org/badge/396775199.svg)](https://zenodo.org/badge/latestdoi/396775199)
 
 ## Table of contents
 * [General info](#general-info)
