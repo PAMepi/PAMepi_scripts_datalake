@@ -44,7 +44,7 @@ Models were implemented using Python > 3.5 and depend on libraries such as [Pand
 
 ## Citing the directory
 
-Fábio M. H. S. Filho, Moreno S. Rodrigues, & Juliane F. Oliveira. (2022). GitHub directory: https://github.com/PAMepi/PAMepi_scripts_datalake.git. PAMepi/PAMepi_scripts_datalake: v1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.6384641
+Platform For Analytical Modelis in Epidemiology. (2022). GitHub directory: https://github.com/PAMepi/PAMepi_scripts_datalake.git. PAMepi/PAMepi_scripts_datalake: v1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.6384641
 
 ## Support
 
