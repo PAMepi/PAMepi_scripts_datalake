@@ -21,7 +21,7 @@ The results of the process developed here are fundamental resources that enable 
 
 The directory has four main folders: Data collection, Data curation, Data description and Data ETL, representing the process applied to the datasets used. Finally, we specify the disease we are working on inside each folder. 
 
-* Data collection: contains the scripts to download data from open sources. 
+* **Data collection:** contains the scripts to download data from open sources. 
 
 	* All data collection plans are described in [[1]](#1). 
 
