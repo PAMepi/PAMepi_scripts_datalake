@@ -25,7 +25,7 @@ The directory has four main folders: Data collection, Data curation, Data descri
 
 	* All data collection plans are described in [[1]](#1). 
 
-	* The data collection plan and the list of data (along with their metadata and descriptions) for the Covid-19 pandemic can be found in [[2]](#2). Scripts to download the data sets are  (Fabio colocar o link para os scripst aqui, ou o nome deles ou um file que nomear todos eles. (Exe: scriptSRAG, scriptSG,...)
+	* The data collection plan and the list of data (along with their metadata and descriptions) for the Covid-19 pandemic can be found in [[2]](#2). Scripts to download the data sets are https://github.com/PAMepi/PAMepi_scripts_datalake/tree/main/Data collection, like a scriptMobility_Wcota.py, scriptSrag.py, scriptSf.py and scriptVaccination.py.
 
 * **Data curation:** contains the scripts for data harmonisation and cleansing for each data set. The scripts may change over time due to changes detected after the record update. 
 	* Data curation scripts for the Covid-19 datasets:(Se quiser pode colocar lista de scripts para as bases da covid) 
