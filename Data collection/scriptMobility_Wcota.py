@@ -4,9 +4,9 @@ from datetime import datetime
 import requests
 from tqdm import tqdm
 
+from config import datalake
 
 # set folders
-datalake = '/media/fabio/19940C2755DB566F/PAMepi/datalake'
 raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
 
 urls = {

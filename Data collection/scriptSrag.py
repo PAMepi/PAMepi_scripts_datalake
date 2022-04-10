@@ -7,9 +7,10 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
+from config import datalake
+
 
 # set folders
-datalake = '/media/fabio/19940C2755DB566F/PAMepi/datalake'
 raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
 output_srag = os.path.join(datalake, raw, 'data-sindrome_respiratoria_aguda_grave_incluindo_covid/')
 
