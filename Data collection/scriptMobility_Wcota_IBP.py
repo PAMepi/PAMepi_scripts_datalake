@@ -4,7 +4,7 @@ from datetime import datetime
 import requests
 from tqdm import tqdm
 
-from config import datalake
+from config import DATALAKE
 
 # set folders
 raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
@@ -12,11 +12,15 @@ raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
 urls = {
     'mobility': [
         'https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv',
-        os.path.join(datalake, raw, 'data-google_mobility/'),
+        os.path.join(DATALAKE, raw, 'data-google_mobility/'),
+    ],
+    'ibp': [
+        'https://researchdata.gla.ac.uk/980/1/Deprivation_Brazil_2010_CensusSectors.csv',
+        os.path.join(DATALAKE, raw, 'data-google_mobility/')
     ],
     'wcota': [
         'https://github.com/wcota/covid19br/raw/master/cases-brazil-cities-time.csv.gz',
-        os.path.join(datalake, raw, 'data-wesley_cota/'),
+        os.path.join(DATALAKE, raw, 'data-wesley_cota/'),
     ]
 }
 
