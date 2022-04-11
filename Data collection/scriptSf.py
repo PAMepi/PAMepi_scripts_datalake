@@ -7,11 +7,11 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-from config import datalake
+from config import DATALAKE
 
 
 raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
-output_sg = os.path.join(datalake, raw, 'data-notificacao_sindrome_gripal')
+output_sg = os.path.join(DATALAKE, raw, 'data-notificacao_sindrome_gripal')
 
 url = 'https://opendatasus.saude.gov.br/dataset/'
 

@@ -5,12 +5,12 @@ import requests
 from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-from config import datalake
+from config import DATALAKE
 
 
 # set folders
 raw = 'raw_data_covid19_version-' + datetime.now().strftime('%Y-%m-%d')
-output_vacc = os.path.join(datalake, raw, 'data-vacinacao_brasil/')
+output_vacc = os.path.join(DATALAKE, raw, 'data-vacinacao_brasil/')
 
 pathlib.Path(output_vacc).mkdir(parents=True, exist_ok=True)
 
