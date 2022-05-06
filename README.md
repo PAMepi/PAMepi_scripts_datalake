@@ -29,6 +29,8 @@ The directory has four main folders: Data collection, Data curation, Data descri
 
 * **Data curation:** contains the scripts for data harmonisation and cleansing for each data set. The scripts may change over time due to changes detected after the record update. 
 	* Data curation scripts for the Covid-19 datasets:(Se quiser pode colocar lista de scripts para as bases da covid) 
+		* myfunctions.py - this file contains all functions used for cleansing data.
+		* jupyter_curation.ipynb - the notebook contains a demo about **how clean** the dataset.
 
 ## Installation
 
