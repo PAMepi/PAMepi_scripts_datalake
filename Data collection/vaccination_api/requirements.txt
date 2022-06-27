@@ -1,0 +1,4 @@
+elasticsearch_dsl
+tqdm
+pandas
+unidecode
