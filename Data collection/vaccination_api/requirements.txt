@@ -1,4 +1,2 @@
-elasticsearch_dsl
+elasticsearch[async]
 tqdm
-pandas
-unidecode
