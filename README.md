@@ -14,8 +14,7 @@
 
 ## General info
 
-Each folder in this directory contains all the descriptions for building a data lake that can enable studies on an specific infectious disease. Each folder has four subfolders: Data Collection, Data Curation, Data Description, and Data ETL.
-
+Each folder in this directory contains all the descriptions for building a data lake that can enable studies on a specific infectious disease. Each folder has four subfolders: Data Collection, Data Curation, Data Description, and Data ETL.
 
 
 * **Data Collection:** contains the scripts for downloading data from open sources and updating when new versions are available in their original system (source).
@@ -32,7 +31,7 @@ Currently the library is on production, so the easiest way to use is clone our r
 
 ## Dependencies
 
-Models were implemented using Python > 3.5 and depend on libraries such as [Pandas](https://github.com/pandas-dev/pandas), [SciPy](https://github.com/scipy/scipy), [Numpy](https://github.com/numpy/numpy), [Matplotlib](https://github.com/matplotlib/matplotlib), etc. For the full list of dependencies as well libraries versions check requirements.txt.
+Models were implemented using Python > 3.5 and depend on libraries such as [Pandas](https://github.com/pandas-dev/pandas), [SciPy](https://github.com/scipy/scipy), [Numpy](https://github.com/numpy/numpy), [Matplotlib](https://github.com/matplotlib/matplotlib), etc. For the full list of dependencies as well libraries versions check requirements.txt inside each folder.
  
 ## License
 
