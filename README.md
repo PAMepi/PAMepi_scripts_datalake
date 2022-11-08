@@ -5,7 +5,6 @@
 
 ## Table of contents
 * [General info](#general-info)
-* [Directory structure](#directory-structure)
 * [Installation](#installation)
 * [Dependencies](#dependencies)
 * [Licence](#licence)
@@ -15,22 +14,17 @@
 
 ## General info
 
-This directory aims to provide codes to create data lakes that can enable studies related to infectious diseases. 
+Each folder in this directory contains all the descriptions for building a data lake that can enable studies on an specific infectious disease. Each folder has four subfolders: Data Collection, Data Curation, Data Description, and Data ETL.
 
-## Directory structure
 
-The directory has four main folders: Data collection, Data curation, Data description and Data ETL, representing the process applied to the datasets used. Finally, we specify the disease we are working on inside each folder. 
 
-* **Data collection:** contains the scripts for downloading data from open sources and updating when new versions are available in their original system (source).
+* **Data Collection:** contains the scripts for downloading data from open sources and updating when new versions are available in their original system (source).
 
-	* All data collection plans are described in [[1]](#1). 
+* **Data Curation:** contains the scripts for data harmonisation and cleansing for each data set. The scripts may change over time due to changes detected after the record update. 
 
-	* The data collection plan and the list of data (along with their metadata and descriptions) for the Covid-19 pandemic can be found in [[2]](#2). Scripts to download the data sets are https://github.com/PAMepi/PAMepi_scripts_datalake/tree/main/Data collection, like a scriptMobility_Wcota.py, scriptSrag.py, scriptSf.py and scriptVaccination.py.
+* **Data Description:** we provide codes to perform basic data analysis and data validation. 
 
-* **Data curation:** contains the scripts for data harmonisation and cleansing for each data set. The scripts may change over time due to changes detected after the record update. 
-	* Data curation scripts for the Covid-19 datasets:(Se quiser pode colocar lista de scripts para as bases da covid) 
-		* myfunctions.py - this file contains all functions used for cleansing data.
-		* jupyter_curation.ipynb - the notebook contains a demo about **how clean** the dataset.
+* **Data ETL:** we provide codes to format data for modelling and  visualization. 
 
 ## Installation
 
