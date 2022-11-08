@@ -15,7 +15,7 @@
 
 ## General info
 
-The results of the process developed here are fundamental resources that enable individualised (unidentified) or aggregated data analysis, statistical, mathematical and computational modelling, data visualisation and scientific communication about the infectious diseases of interest. Currently we are focusing on studies related to the COVID-19 pandemic in Brazil.
+This directory aims to provide codes to create data lakes that can enable studies related to infectious diseases. 
 
 ## Directory structure
 
