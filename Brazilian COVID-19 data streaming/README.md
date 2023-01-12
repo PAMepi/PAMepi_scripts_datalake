@@ -41,15 +41,9 @@ Models were implemented using Python > 3.5 and depend on libraries such as [Pand
 
 Platform For Analytical Modelis in Epidemiology. (2022). GitHub directory: https://github.com/PAMepi/PAMepi_scripts_datalake.git. PAMepi/PAMepi_scripts_datalake: v1.0.0 (v1.0.0). Zenodo. https://doi.org/10.5281/zenodo.6384641
 
-Note that in each folder you will find a doi linked to the dataset processed by the team, which can be cited in your work. 
-
 ## Support
 
-This study was financed by 
-
-	* Bill and Melinda Gates Foundation and Minderoo Foundation HDR UK, through the Grand  	Challenges ICODA COVID-19 Data Science, with reference number 2021.0097 
-	
-	* Fiocruz Innovation Promotion Program - Innovative ideas and products - COVID-19, orders and strategies INOVA-FIOCRUZ, with reference Number VPPIS-005-FIO-20-2-40.
+This study was financed by Bill and Melinda Gates Foundation and Minderoo Foundation HDR UK, through the Grand Challenges ICODA COVID-19 Data Science, with reference number 2021.0097 and the Fiocruz Innovation Promotion Program - Innovative ideas and products - COVID-19, orders and strategies INOVA-FIOCRUZ, with reference Number VPPIS-005-FIO-20-2-40.
 
 ## References 
 
