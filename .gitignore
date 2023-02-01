@@ -1,4 +1,7 @@
 __pycache__/
-.venv
+.venv/
+.env/
+datalake/
+.ipynb_checkpoints
 *.csv
 .gitignore
